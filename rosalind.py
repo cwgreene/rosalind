@@ -16,7 +16,6 @@ def substrings(string, n = 1, k = None):
     if k == None: k = len(string)
     return set(string[i:i+j] for j in range(n,k+1) for i in range(len(string)-j+1) )
 
-
 def dna2rna(dna):
     return dna.replace("T", "U")
 
@@ -49,7 +48,7 @@ def simplereadfasta():
     return [x[1] for x in readfasta()]
 
 def rna2protein(string):
-    return "".join([codons[codon] for codon in takeby(3, string)]).split("Stop")[0]
+    return "".join([codons[codon] for codon in takeby(3, string)])
 
 def takeby(n, array):
     for i in range(len(array)/n):   

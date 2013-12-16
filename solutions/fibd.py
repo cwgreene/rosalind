@@ -10,7 +10,6 @@ def construct_matrix(m):
     for row in range(m-1):
         result[(row+1,row)] = 1
     result = sympy.Matrix(result)
-    print result
     return result
 
 def fibk(n,m):

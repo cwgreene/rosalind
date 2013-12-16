@@ -1,4 +1,4 @@
-from rosalind import take, readfasta
+from rosalind import readfasta
 
 def gc(rid, string):
     value = (string.count("C")+string.count("G"))/float(len(string))

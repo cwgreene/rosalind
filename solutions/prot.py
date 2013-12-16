@@ -1,4 +1,4 @@
-from rosalind import codons, take, readfile
+from rosalind import codons, takeby, readfile
 
 def rna_translate(string):
     return "".join([codons[codon] for codon in takeby(3, string)])  

@@ -1,4 +1,5 @@
 from rosalind import readfile
 
 for line in readfile():
-    print line.replace("T","U")
+    n = int(line)
+    print (2**n) % (1000*1000)

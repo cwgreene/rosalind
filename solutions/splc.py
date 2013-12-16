@@ -4,4 +4,4 @@ lines = simplereadfasta()
 string = lines[0]
 for intron in lines[1:]:
     string = string.replace(intron, "")
-print rna2protein(dna2rna(string))
+print rna2protein(dna2rna(string)).replace("Stop", "")

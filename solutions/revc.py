@@ -1,3 +1,3 @@
-from rosalind import readfile
+from rosalind import readfile, complement
 for line in readfile():
     print complement(line)

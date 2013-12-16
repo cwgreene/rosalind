@@ -20,6 +20,5 @@ def take(n, array):
 
 lines = readfile()
 for sequence, motif in take(2, lines):
-    print sequence, motif
     for index in find_indices(sequence, motif):
         print index,

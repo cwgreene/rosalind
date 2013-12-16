@@ -1,4 +1,4 @@
-from rosalind import readfile, take
+from rosalind import readfile, takeby
 
 for line in takeby(2,readfile()):
     count = 0

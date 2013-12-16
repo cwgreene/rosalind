@@ -28,5 +28,4 @@ for i in range(count):
 for a,b in edges:
     graph[a].add(b)
     graph[b].add(a)
-print len(graph)
 print connected_components(graph)-1

@@ -1,4 +1,4 @@
-import sys
+from rosalind import readfile
 
 def find_indices(astring, t):
     index = astring.find(t)
@@ -18,12 +18,8 @@ def take(n, array):
     if rem:
         yield rem
 
-def readfile():
-    return map(lambda x: x.strip(), open(sys.argv[1]).readlines())
-    
 lines = readfile()
 for sequence, motif in take(2, lines):
     print sequence, motif
     for index in find_indices(sequence, motif):
         print index,
-    

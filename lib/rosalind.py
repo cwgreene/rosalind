@@ -28,7 +28,7 @@ def readfile():
         afile = open(sys.argv[1])
     else:
         afile = sys.stdin
-    return map(lambda x: x.strip(), afile.readlines())
+    return [line.strip() for line in afile]
 
 def readfasta():
     result = []

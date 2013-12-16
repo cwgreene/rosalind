@@ -1,6 +1,8 @@
 import sympy 
 import numpy
-import sys
+
+from rosalind import readfile
+
 def construct_matrix(m):
     result = sympy.Matrix(numpy.zeros((m,m)))
     result[0,:] = sympy.Matrix([1]*(m-1)+[0]).transpose()
@@ -16,7 +18,6 @@ def fibk(n,m):
     initial = sympy.Matrix([[1]]+[[0]]*(m-1),dtype="int64")
     return ((A**(n-1))*initial)[0,0]
 
-dataset = open(sys.argv[1])
-for line in dataset:
+for line in readfile():
     n,m = map(int,line.strip().split())
     print fibk(n,m)

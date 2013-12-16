@@ -2,6 +2,9 @@ from codons import *
 import monoisotope
 import sys
 
+arguments = sys.argv
+filename = None
+
 def complement(string):
     opposite = {"G":"C",
                 "T":"A",
@@ -24,11 +27,13 @@ def numbers(line):
 
 def readfile():
     afile = None
-    if len(sys.argv) > 1:
-        afile = open(sys.argv[1])
+    if filename:
+        afile = open(filename)
+    elif len(arguments) > 1:
+        afile = open(arguments[1])
     else:
         afile = sys.stdin
-    return [line.strip() for line in afile]
+    return [line.strip() for line in afile.readlines()]
 
 def readfasta():
     result = []

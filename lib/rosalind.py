@@ -1,6 +1,8 @@
 from codons import *
 import monoisotope
 import sys
+from uniprot import uniprotfasta
+from motif import find_motif
 
 arguments = sys.argv
 filename = None
@@ -30,15 +32,17 @@ def readfile():
     if filename:
         afile = open(filename)
     elif len(arguments) > 1:
-        afile = open(arguments[1])
+        afile = open(arguments[2])
     else:
         afile = sys.stdin
     return [line.strip() for line in afile.readlines()]
 
-def readfasta():
+def readfasta(lines=None):
+    if not lines:
+        lines = readfile()
     result = []
     this_line = None
-    for line in readfile():
+    for line in lines:
         if line.startswith(">"):
             if this_line:
                 result.append(this_line)
@@ -46,7 +50,7 @@ def readfasta():
             this_line.append(line[1:])
             this_line.append("")
         else:
-            this_line[1] += line    
+            this_line[1] += line.strip()
     return result+[this_line]
 
 def simplereadfasta():

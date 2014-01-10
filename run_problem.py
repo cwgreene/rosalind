@@ -2,14 +2,13 @@
 import sys
 import imp
 
-sys.path.append("lib")
 import rosalind
 
 def run_program(program, args):
     if args:
-        rosalind.filenmae = args[0]
+        rosalind.set_filename(args[0])
     else: 
-        rosalind.filename = "datasets/rosalind_%s.txt" % program
+        rosalind.set_filename("datasets/rosalind_%s.txt" % program)
     __import__("solutions."+program)
 
 def main(args):

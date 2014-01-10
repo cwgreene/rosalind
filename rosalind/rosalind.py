@@ -4,8 +4,14 @@ import sys
 from uniprot import uniprotfasta
 from motif import find_motif
 
+print "hey"
+
 arguments = sys.argv
 filename = None
+
+def set_filename(afile):
+    global filename
+    filename = afile
 
 def complement(string):
     opposite = {"G":"C",
@@ -29,6 +35,7 @@ def numbers(line):
 
 def readfile():
     afile = None
+    print filename
     if filename:
         afile = open(filename)
     elif len(arguments) > 1:

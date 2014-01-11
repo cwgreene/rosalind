@@ -4,8 +4,6 @@ import sys
 from uniprot import uniprotfasta
 from motif import find_motif
 
-print "hey"
-
 arguments = sys.argv
 filename = None
 
@@ -35,11 +33,10 @@ def numbers(line):
 
 def readfile():
     afile = None
-    print filename
     if filename:
         afile = open(filename)
     elif len(arguments) > 1:
-        afile = open(arguments[2])
+        afile = open(arguments[1])
     else:
         afile = sys.stdin
     return [line.strip() for line in afile.readlines()]

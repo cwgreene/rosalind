@@ -9,6 +9,8 @@ import rosalind
 import colorama
 from colorama import Fore
 
+import time
+
 colorama.init()
 
 SOLUTION_FILE_FORMAT="dataset_solutions/rosalind_{}.solution.out"
@@ -30,7 +32,9 @@ def maybe_test_program(program, filename, should_test, should_commit):
     actual_stdout = sys.stdout
     try:
         if should_test:
+            start_time = time.time()
             print "{} :".format(program),
+            sys.stdout.flush()
             sys.stdout = StringIO.StringIO()
         if should_commit:
             sys.stdout = StringIO.StringIO()
@@ -42,7 +46,7 @@ def maybe_test_program(program, filename, should_test, should_commit):
             sys.stdout = actual_stdout
             if output.strip() != solution.strip():
                 raise Exception("Does not match solution")
-            print green("Test pass!")
+            print green("Test pass!"), "({0:.2f} ms)".format(1000*(time.time() - start_time))
         if should_commit:
             output = open(SOLUTION_FILE_FORMAT.format(program), "w")
             sys.stdout.seek(0)

@@ -11,6 +11,8 @@ from colorama import Fore
 
 colorama.init()
 
+SOLUTION_FILE_FORMAT="dataset_solutions/rosalind_{}.solution.out"
+
 def red(string): return Fore.RED+string+Fore.RESET
 def green(string): return Fore.GREEN+string+Fore.RESET
 
@@ -24,22 +26,27 @@ def run_program(program, filename):
 def ignore_list():
     return [line.strip() for line in open("solutions/.ignore")]
 
-def maybe_test_program(program, filename, should_test):
+def maybe_test_program(program, filename, should_test, should_commit):
     actual_stdout = sys.stdout
     try:
         if should_test:
             print "{} :".format(program),
             sys.stdout = StringIO.StringIO()
+        if should_commit:
+            sys.stdout = StringIO.StringIO()
         run_program(program, filename)
         if should_test:
             sys.stdout.seek(0)
             output = sys.stdout.read()
-            solution = open("dataset_solutions/rosalind_{}.solution.out".format(program)).read()
+            solution = open(SOLUTION_FILE_FORMAT.format(program)).read()
             sys.stdout = actual_stdout
             if output.strip() != solution.strip():
                 raise Exception("Does not match solution")
-        if should_test:
             print green("Test pass!")
+        if should_commit:
+            output = open(SOLUTION_FILE_FORMAT.format(program), "w")
+            sys.stdout.seek(0)
+            output.write(sys.stdout.read())
     finally:
         sys.stdout = actual_stdout
 
@@ -47,6 +54,7 @@ def main(args):
     parser = argparse.ArgumentParser()
     parser.add_argument("--test", action="store_true")
     parser.add_argument("--test-all", action="store_true")
+    parser.add_argument("--commit", action="store_true")
     parser.add_argument("program", nargs="?", default=None)
     parser.add_argument("filename", nargs="?", default=None)
     options = parser.parse_args(args)
@@ -65,7 +73,7 @@ def main(args):
 
     for program in programs:
         try:
-            maybe_test_program(program, options.filename, options.test)
+            maybe_test_program(program, options.filename, options.test, options.commit)
         except Exception as e:
             print red("Failure! "), e
 

@@ -6,6 +6,13 @@ import argparse
 import re
 
 import rosalind
+import colorama
+from colorama import Fore
+
+colorama.init()
+
+def red(string): return Fore.RED+string+Fore.RESET
+def green(string): return Fore.GREEN+string+Fore.RESET
 
 def run_program(program, filename):
     if filename:
@@ -18,20 +25,23 @@ def ignore_list():
     return [line.strip() for line in open("solutions/.ignore")]
 
 def maybe_test_program(program, filename, should_test):
-    if should_test:
-        print "{} :".format(program),
-        actual_stdout = sys.stdout
-        sys.stdout = StringIO.StringIO()
-    run_program(program, filename)
-    if should_test:
-        sys.stdout.seek(0)
-        output = sys.stdout.read()
-        solution = open("dataset_solutions/rosalind_{}.solution.out".format(program)).read()
+    try:
+        if should_test:
+            print "{} :".format(program),
+            actual_stdout = sys.stdout
+            sys.stdout = StringIO.StringIO()
+        run_program(program, filename)
+        if should_test:
+            sys.stdout.seek(0)
+            output = sys.stdout.read()
+            solution = open("dataset_solutions/rosalind_{}.solution.out".format(program)).read()
+            sys.stdout = actual_stdout
+            if output.strip() != solution.strip():
+                raise Exception("Does not match solution")
+        if should_test:
+            print green("Test pass!")
+    finally:
         sys.stdout = actual_stdout
-        if output.strip() != solution.strip():
-            raise Exception("Does not match solution")
-    if should_test:
-        print "Test pass!"
 
 def main(args):
     parser = argparse.ArgumentParser()
@@ -54,7 +64,10 @@ def main(args):
         parser.parse_args(["--help"])
 
     for program in programs:
-        maybe_test_program(program, options.filename, options.test)
+        try:
+            maybe_test_program(program, options.filename, options.test)
+        except Exception as e:
+            print red("Failure! "), e
 
 if __name__=="__main__":
     main(sys.argv[1:])

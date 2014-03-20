@@ -25,10 +25,10 @@ def ignore_list():
     return [line.strip() for line in open("solutions/.ignore")]
 
 def maybe_test_program(program, filename, should_test):
+    actual_stdout = sys.stdout
     try:
         if should_test:
             print "{} :".format(program),
-            actual_stdout = sys.stdout
             sys.stdout = StringIO.StringIO()
         run_program(program, filename)
         if should_test:

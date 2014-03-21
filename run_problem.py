@@ -33,7 +33,7 @@ def maybe_test_program(program, filename, should_test, should_commit):
     try:
         if should_test:
             start_time = time.time()
-            print "{} :".format(program),
+            print "{:<5}:".format(program),
             sys.stdout.flush()
             sys.stdout = StringIO.StringIO()
         if should_commit:

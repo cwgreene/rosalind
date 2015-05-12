@@ -17,6 +17,7 @@ SOLUTION_FILE_FORMAT="dataset_solutions/rosalind_{}.solution.out"
 
 def red(string): return Fore.RED+string+Fore.RESET
 def green(string): return Fore.GREEN+string+Fore.RESET
+def yellow(string): return Fore.YELLOW+string+Fore.RESET
 
 def run_program(program, filename):
     if filename:
@@ -60,6 +61,7 @@ def main(args):
     parser.add_argument("--test-all", action="store_true")
     parser.add_argument("--commit", action="store_true")
     parser.add_argument("--list", action="store_true")
+    parser.add_argument("--list-ignored", action="store_true")
     parser.add_argument("program", nargs="?", default=None)
     parser.add_argument("filename", nargs="?", default=None)
     options = parser.parse_args(args)
@@ -73,7 +75,10 @@ def main(args):
         options.test = True
     elif options.list:
         for program in programs:
-            print program
+            program_color = green
+            if program in ignore_list():
+                program_color = red
+            print program_color("{:<5}".format(program)), yellow("http://rosalind.info/problems/%s/"% program)
         return
     elif options.program:
         programs = [options.program]

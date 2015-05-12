@@ -61,7 +61,6 @@ def main(args):
     parser.add_argument("--test-all", action="store_true")
     parser.add_argument("--commit", action="store_true")
     parser.add_argument("--list", action="store_true")
-    parser.add_argument("--list-ignored", action="store_true")
     parser.add_argument("program", nargs="?", default=None)
     parser.add_argument("filename", nargs="?", default=None)
     options = parser.parse_args(args)

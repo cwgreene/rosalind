@@ -59,17 +59,22 @@ def main(args):
     parser.add_argument("--test", action="store_true")
     parser.add_argument("--test-all", action="store_true")
     parser.add_argument("--commit", action="store_true")
+    parser.add_argument("--list", action="store_true")
     parser.add_argument("program", nargs="?", default=None)
     parser.add_argument("filename", nargs="?", default=None)
     options = parser.parse_args(args)
 
+    programs = [re.findall(".*/([^.*]*).py", solution_file)[0]
+                 for solution_file in glob.glob("solutions/[!_]*.py")]
 
     if options.test_all:
-        programs = [re.findall(".*/([^.*]*).py", solution_file)[0]
-                 for solution_file in glob.glob("solutions/[!_]*.py")]
         for x in ignore_list():
             programs.remove(x)
         options.test = True
+    elif options.list:
+        for program in programs:
+            print program
+        return
     elif options.program:
         programs = [options.program]
     else:

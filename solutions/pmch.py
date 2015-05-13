@@ -9,12 +9,5 @@ def fac(n):
     return res
 
 for problem, rna in groups:
-    a = 0
-    g = 0
     # exploit guarantee count(A) == count(U)
-    for base in rna:
-        if base == 'A':
-            a += 1
-        if base == 'G':
-            g += 1
-    print fac(a)*fac(g)
+    print fac(rna.count("A"))*fac(rna.count("G"))

@@ -57,12 +57,18 @@ def maybe_test_program(program, filename, should_test, should_commit):
 
 def main(args):
     parser = argparse.ArgumentParser()
-    parser.add_argument("--test", action="store_true")
-    parser.add_argument("--test-all", action="store_true")
-    parser.add_argument("--commit", action="store_true")
-    parser.add_argument("--list", action="store_true")
-    parser.add_argument("program", nargs="?", default=None)
-    parser.add_argument("filename", nargs="?", default=None)
+    parser.add_argument("--test", action="store_true",
+        help="checks the output of the program against the stored solutions file")
+    parser.add_argument("--test-all", action="store_true",
+        help="tests all programs (except: %s)"%s(",".join(ignore_list()))
+    parser.add_argument("--commit", action="store_true",
+        help="saves the output of the programs run as the canonical answer")
+    parser.add_argument("--list", action="store_true",
+        help="list all programs")
+    parser.add_argument("program", nargs="?", default=None,
+        help="program to run")
+    parser.add_argument("filename", nargs="?", default=None,
+        help="filename of input, default is 'datasets/rosalind_PROGNAME.txt'")
     options = parser.parse_args(args)
 
     programs = [re.findall(".*/([^.*]*).py", solution_file)[0]
@@ -84,6 +90,8 @@ def main(args):
     else:
         parser.parse_args(["--help"])
 
+    if ignore_list():
+        print "Skipping:", ",".join(ignore_list())
     for program in programs:
         try:
             maybe_test_program(program, options.filename, options.test, options.commit)

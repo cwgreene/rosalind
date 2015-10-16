@@ -1,2 +1,3 @@
 *.pyc
 quick.sh
+databases/*

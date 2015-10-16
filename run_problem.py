@@ -84,7 +84,7 @@ def main(args):
             if program in ignore_list():
                 program_color = red
             print program_color("{:<5}".format(program)), yellow("http://rosalind.info/problems/%s/"% program)
-        return
+        return 0
     elif options.program:
         programs = [options.program]
     else:
@@ -92,11 +92,14 @@ def main(args):
 
     if ignore_list():
         print "Skipping:", ",".join(ignore_list())
+    failure = 0
     for program in programs:
         try:
             maybe_test_program(program, options.filename, options.test, options.commit)
         except Exception as e:
             print red("Failure! "), e
+            failure = 1
+    return failure
 
 if __name__=="__main__":
-    main(sys.argv[1:])
+    sys.exit(main(sys.argv[1:]))

@@ -1,0 +1,8 @@
+#!/bin/bash -e
+if [ ! -e .git ]; then
+    if [ "$pwd" -eq '/' ]; then
+        exit 1
+    fi
+    cd ..
+fi
+./run_problem.py --test-all

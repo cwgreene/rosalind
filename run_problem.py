@@ -93,12 +93,14 @@ def main(args):
     if ignore_list():
         print "Skipping:", ",".join(ignore_list())
     failure = 0
+    start_time = time.time()
     for program in programs:
         try:
             maybe_test_program(program, options.filename, options.test, options.commit)
         except Exception as e:
             print red("Failure! "), e
             failure = 1
+    print "Total time: %s s" % ((time.time()-start_time))
     return failure
 
 if __name__=="__main__":

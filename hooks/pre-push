@@ -6,3 +6,8 @@ if [ ! -e .git ]; then
     cd ..
 fi
 ./run_problem.py --test-all
+# check commit message
+msg=$(git show -s HEAD --format="%s%n%n%b" | python hooks/format-commit-message.py)
+git commit --amend -m "$msg" 2> /dev/null
+git push --no-verify
+exit 1

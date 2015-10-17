@@ -1,13 +1,30 @@
 #!/bin/bash -e
+# find root. Maybe there's an environment variable that we can use directly?
+echo "$@"
 if [ ! -e .git ]; then
     if [ "$pwd" -eq '/' ]; then
         exit 1
     fi
     cd ..
 fi
+# Don't like the following. This is ad-hoc parsing of the refs,
+# we should really look up the format, and rewrite this in python.
+# Also, start looking for githooks python libraries.
+read line
+if [[ "$line" == "(delete)"* ]]; then
+    exit 0
+fi
+line=$(echo "$line" | awk '{print $2}')
 ./run_problem.py --test-all
-# check commit message
-msg=$(git show -s HEAD --format="%s%n%n%b" | python hooks/format-commit-message.py)
-git commit --amend -m "$msg" 2> /dev/null
-git push --no-verify
-exit 1
+# check commit message, if it's not of the correct format
+# abort.
+msg="$(git show -s $line --format="%s%n%n%b" | python hooks/format-commit-message.py)"
+actual_msg="$(git show -s $line --format='%s%n%n%b')"
+if [[ "$msg" != "$actual_msg" ]]; then
+    echo "Format of error message is incorrect, run hooks/format-commit-message.py"
+    echo "Expected format:"
+    echo -n "$msg"
+    echo "Actual"
+    echo -n "$actual_msg"
+    exit 1
+fi

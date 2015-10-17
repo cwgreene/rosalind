@@ -25,7 +25,7 @@ def main(args):
         lines[-2] = "Fixes %s%s\n" % (URL, issue)
     else:
         lines.append("Fixes %s%s\n" % (URL, issue))
-    print "".join(lines)
+    print "".join(lines) # chop off end
     
 if __name__=="__main__":
     main(sys.argv[1:])

@@ -23,8 +23,8 @@ actual_msg="$(git show -s $line --format='%s%n%n%b')"
 if [[ "$msg" != "$actual_msg" ]]; then
     echo "Format of error message is incorrect, run hooks/format-commit-message.py"
     echo "Expected format:"
-    echo -n "$msg"
+    echo "$msg"
     echo "Actual"
-    echo -n "$actual_msg"
+    echo "$actual_msg"
     exit 1
 fi

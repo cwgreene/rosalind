@@ -4,6 +4,9 @@ import sys
 from uniprot import uniprotfasta
 from motif import find_motif
 
+import numpy
+import sympy
+
 arguments = sys.argv
 filename = None
 

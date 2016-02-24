@@ -5,11 +5,13 @@ import glob
 import argparse
 import re
 
+import time
+rosalind_load_start = time.time()
 import rosalind
+rosalind_elapsed = time.time() - rosalind_load_start
 import colorama
 from colorama import Fore
 
-import time
 
 colorama.init()
 
@@ -100,7 +102,7 @@ def main(args):
         except Exception as e:
             print red("Failure! "), e
             failure = 1
-    print "Total time: %s s" % ((time.time()-start_time))
+    print "Total time: %s s (%s s startup)" % ((time.time()-start_time), rosalind_elapsed)
     return failure
 
 if __name__=="__main__":

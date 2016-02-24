@@ -4,6 +4,8 @@ import StringIO
 import glob
 import argparse
 import re
+import requests
+import bs4
 
 import time
 rosalind_load_start = time.time()
@@ -57,6 +59,16 @@ def maybe_test_program(program, filename, should_test, should_commit):
     finally:
         sys.stdout = actual_stdout
 
+def fetch(program):
+    result = requests.get("http://rosalind.info/problems/%s/" % program).content
+    result = bs4.BeautifulSoup(result, "html.parser")
+    sample_dataset = result.find(attrs={"id":"sample-dataset"}).nextSibling.nextSibling.findChild().text
+    sample_output = result.find(attrs={"id":"sample-output"}).nextSibling.nextSibling.findChild().text
+    with open("datasets/rosalind_%s.txt" % program, "w") as dataset:
+        print>>dataset, sample_dataset,
+    with open("dataset_solutions/rosalind_%s.solution.out" % program, "w") as solution:
+        print>>solution, sample_output,
+
 def main(args):
     parser = argparse.ArgumentParser()
     parser.add_argument("--test", action="store_true",
@@ -67,6 +79,8 @@ def main(args):
         help="saves the output of the programs run as the canonical answer")
     parser.add_argument("--list", action="store_true",
         help="list all programs")
+    parser.add_argument("--fetch", action="store_true",
+        help="access sample dataset and store sample solution")
     parser.add_argument("program", nargs="?", default=None,
         help="program to run, use --list to show programs")
     parser.add_argument("filename", nargs="?", default=None,
@@ -80,6 +94,9 @@ def main(args):
         for x in ignore_list():
             programs.remove(x)
         options.test = True
+    elif options.fetch:
+        fetch(options.program)
+        return
     elif options.list:
         for program in programs:
             program_color = green

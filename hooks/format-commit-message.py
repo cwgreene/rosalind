@@ -19,8 +19,8 @@ def main(args):
     except ValueError as e:
         raise Exception("Subject line is not of the form 'ROSALIND-XXX Subject'")
     issue_type = lines[-2]
-    if issue_type.lower().startswith("ref"):
-        lines[-2] = "%s%s" % (URL, issue)
+    if issue_type.lower().startswith("refs"):
+        lines[-2] = "refs %s%s" % (URL, issue)
     elif issue_type.lower().startswith("fixes"):
         lines[-2] = "Fixes %s%s\n" % (URL, issue)
     else:

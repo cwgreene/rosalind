@@ -1,3 +1,5 @@
 sympy
 colorama
 numpy
+beautifulsoup4
+requests

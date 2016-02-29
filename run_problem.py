@@ -114,11 +114,14 @@ def main(args):
     failure = 0
     start_time = time.time()
     for program in programs:
-        try:
+        if options.test_all or options.test:
+            try:
+                maybe_test_program(program, options.filename, options.test, options.commit)
+            except Exception as e:
+                print red("Failure! "), e
+                failure = 1
+        else:
             maybe_test_program(program, options.filename, options.test, options.commit)
-        except Exception as e:
-            print red("Failure! "), e
-            failure = 1
     print "Total time: %s s (%s s startup)" % ((time.time()-start_time), rosalind_elapsed)
     return failure
 

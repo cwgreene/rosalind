@@ -118,7 +118,7 @@ def main(args):
             try:
                 maybe_test_program(program, options.filename, options.test, options.commit)
             except Exception as e:
-                print red("Failure! "), e
+                print red("Failure! "), "%s: %s" % (e.__class__.__name__, e)
                 failure = 1
         else:
             maybe_test_program(program, options.filename, options.test, options.commit)
